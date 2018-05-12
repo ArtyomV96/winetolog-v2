@@ -19,8 +19,8 @@ public class WineCatalog {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        HomeFrame homeF = new HomeFrame();
-        homeF.setVisible(true);
+        HomeFrame mainFrame = new HomeFrame();
+        mainFrame.setVisible(true);
        
     }
     
