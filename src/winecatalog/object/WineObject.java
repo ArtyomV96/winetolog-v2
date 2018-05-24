@@ -16,12 +16,32 @@ public class WineObject {
     String country;
     String type;
     String grape;
+    String color;
     int year;
     double vol;
     double price;
     String description;
     String pic;
     int count;
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public WineObject(int id, String name,  String color, String grape, String country, double price) {
+        this.id = id;
+        this.name = name;
+        this.country = country;
+        this.grape = grape;
+        this.color = color;
+        this.price = price;
+    }
+    
+    
 
     public int getId() {
         return id;

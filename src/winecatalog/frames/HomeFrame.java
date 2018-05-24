@@ -5,10 +5,11 @@
  */
 
 package winecatalog.frames;
-
+import helpers.TableModel;
 import java.awt.Color;
-
-
+import java.util.ArrayList;
+import java.util.List;
+import winecatalog.object.WineObject;
 
 /**
  *
@@ -19,10 +20,12 @@ public class HomeFrame extends javax.swing.JFrame {
     public Color clicked = new Color(201, 51, 58, 255);
     public Color stock = new Color(176, 0, 29, 255);
     public int menuItem = 0; 
+    public List<WineObject> list = new ArrayList<>();
      /** Creates new form HomeFrame */
     public HomeFrame() {
         initComponents();
-         }
+        customInit();
+        }
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -37,7 +40,7 @@ public class HomeFrame extends javax.swing.JFrame {
         basic = new javax.swing.JPanel();
         sidemenu = new javax.swing.JPanel();
         head = new javax.swing.JLabel();
-        shamp_panel = new javax.swing.JPanel();
+        all_panel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         red_panel = new javax.swing.JPanel();
@@ -50,6 +53,9 @@ public class HomeFrame extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        shamp_panel = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
         tablepanel = new javax.swing.JPanel();
         headpanel = new javax.swing.JPanel();
         exit = new javax.swing.JLabel();
@@ -80,38 +86,38 @@ public class HomeFrame extends javax.swing.JFrame {
         head.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/head2.png"))); // NOI18N
         sidemenu.add(head, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        shamp_panel.setBackground(new java.awt.Color(176, 0, 29));
-        shamp_panel.addMouseListener(new java.awt.event.MouseAdapter() {
+        all_panel.setBackground(new java.awt.Color(176, 0, 29));
+        all_panel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                shamp_panelMouseClicked(evt);
+                all_panelMouseClicked(evt);
             }
         });
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Champagne_24px.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Menu_24px.png"))); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Игристое вино");
+        jLabel2.setText("Все");
 
-        javax.swing.GroupLayout shamp_panelLayout = new javax.swing.GroupLayout(shamp_panel);
-        shamp_panel.setLayout(shamp_panelLayout);
-        shamp_panelLayout.setHorizontalGroup(
-            shamp_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(shamp_panelLayout.createSequentialGroup()
+        javax.swing.GroupLayout all_panelLayout = new javax.swing.GroupLayout(all_panel);
+        all_panel.setLayout(all_panelLayout);
+        all_panelLayout.setHorizontalGroup(
+            all_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(all_panelLayout.createSequentialGroup()
                 .addGap(1, 1, 1)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(99, Short.MAX_VALUE))
         );
-        shamp_panelLayout.setVerticalGroup(
-            shamp_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        all_panelLayout.setVerticalGroup(
+            all_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        sidemenu.add(shamp_panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 440, 360, 80));
+        sidemenu.add(all_panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 520, 360, 80));
 
         red_panel.setBackground(new java.awt.Color(176, 0, 29));
         red_panel.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -215,6 +221,39 @@ public class HomeFrame extends javax.swing.JFrame {
         jLabel9.setText("Designed&Developed by ArtyomV");
         sidemenu.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 680, -1, 20));
 
+        shamp_panel.setBackground(new java.awt.Color(176, 0, 29));
+        shamp_panel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                shamp_panelMouseClicked(evt);
+            }
+        });
+
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Champagne_24px.png"))); // NOI18N
+
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel12.setText("Игристое вино");
+
+        javax.swing.GroupLayout shamp_panelLayout = new javax.swing.GroupLayout(shamp_panel);
+        shamp_panel.setLayout(shamp_panelLayout);
+        shamp_panelLayout.setHorizontalGroup(
+            shamp_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(shamp_panelLayout.createSequentialGroup()
+                .addGap(1, 1, 1)
+                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(99, Short.MAX_VALUE))
+        );
+        shamp_panelLayout.setVerticalGroup(
+            shamp_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+            .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        sidemenu.add(shamp_panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 440, 360, 80));
+
         basic.add(sidemenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 360, 710));
 
         tablepanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -272,30 +311,16 @@ public class HomeFrame extends javax.swing.JFrame {
         catTable.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         catTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"12/1/2018", "Expresso POS", "Kenya", null},
-                {"12/1/2018", "ROM Gen", "US", null},
-                {"12/1/2018", "Text Ed", "UK", null},
-                {"12/1/2018", "Mola Con", "China", null}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "Date", "Item", "Location", "Completed"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
             }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        ));
+        catTable.setToolTipText("");
         catTable.setFillsViewportHeight(true);
         catTable.setGridColor(new java.awt.Color(255, 255, 255));
         catTable.setRowHeight(22);
@@ -306,12 +331,6 @@ public class HomeFrame extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(catTable);
-        if (catTable.getColumnModel().getColumnCount() > 0) {
-            catTable.getColumnModel().getColumn(0).setResizable(false);
-            catTable.getColumnModel().getColumn(1).setResizable(false);
-            catTable.getColumnModel().getColumn(2).setResizable(false);
-            catTable.getColumnModel().getColumn(3).setResizable(false);
-        }
 
         tablepanel.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, 730, 500));
 
@@ -322,6 +341,18 @@ public class HomeFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void customInit() {
+        for (int i = 0; i < 10; i++) {
+          WineObject obj = new WineObject(i, "Имя " + i, "Цвет " + i, "Виноград " + i, "Украина " + i, 122 + i);  
+          list.add(obj);
+        }
+        
+        TableModel tModel = new TableModel(list.size(), 6, list);
+        catTable.setModel(tModel);
+        jScrollPane1.setVisible(false);
+        catTable.setVisible(false);
+    }
+    
     private void exitMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitMousePressed
         // TODO add your handling code here:
         System.exit(0);
@@ -350,11 +381,11 @@ public class HomeFrame extends javax.swing.JFrame {
         rose_panel.setBackground(clicked);      
     }//GEN-LAST:event_rose_panelMouseClicked
 
-    private void shamp_panelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_shamp_panelMouseClicked
+    private void all_panelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_all_panelMouseClicked
         // TODO add your handling code here:
-        skipSelection(4, "Игристое вино");
-        shamp_panel.setBackground(clicked);   
-    }//GEN-LAST:event_shamp_panelMouseClicked
+        skipSelection(5, "Все");
+        all_panel.setBackground(clicked);   
+    }//GEN-LAST:event_all_panelMouseClicked
 
     private void catTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_catTableMouseClicked
         // TODO add your handling code here:
@@ -362,10 +393,17 @@ public class HomeFrame extends javax.swing.JFrame {
               
     }//GEN-LAST:event_catTableMouseClicked
 
+    private void shamp_panelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_shamp_panelMouseClicked
+        // TODO add your handling code here:
+        skipSelection(4, "Игристое вино");
+        shamp_panel.setBackground(clicked); 
+    }//GEN-LAST:event_shamp_panelMouseClicked
+
     private void skipSelection(int itemNum, String name) {
         red_panel.setBackground(stock);
         white_panel.setBackground(stock);
         rose_panel.setBackground(stock);
+        all_panel.setBackground(stock);
         shamp_panel.setBackground(stock);
         menuItem = itemNum;
         head_title.setText(name);
@@ -407,18 +445,13 @@ public class HomeFrame extends javax.swing.JFrame {
         
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new HomeFrame().setVisible(true);
-                                             
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new HomeFrame().setVisible(true);
         });
-        
-        jScrollPane1.setVisible(false);
-        catTable.setVisible(false);
       }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel all_panel;
     private javax.swing.JPanel basic;
     private static javax.swing.JTable catTable;
     private javax.swing.JLabel exit;
@@ -427,6 +460,8 @@ public class HomeFrame extends javax.swing.JFrame {
     private javax.swing.JPanel headpanel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
