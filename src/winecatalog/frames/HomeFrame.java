@@ -5,10 +5,14 @@
  */
 
 package winecatalog.frames;
+import helpers.DatabaseConnect;
 import helpers.TableModel;
 import java.awt.Color;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import winecatalog.object.WineObject;
 
 /**
@@ -20,7 +24,8 @@ public class HomeFrame extends javax.swing.JFrame {
     public Color clicked = new Color(201, 51, 58, 255);
     public Color stock = new Color(176, 0, 29, 255);
     public int menuItem = 0; 
-    public List<WineObject> list = new ArrayList<>();
+    public List<WineObject> wineList = new ArrayList<>();
+    public DatabaseConnect db = new DatabaseConnect();
      /** Creates new form HomeFrame */
     public HomeFrame() {
         initComponents();
@@ -113,8 +118,8 @@ public class HomeFrame extends javax.swing.JFrame {
         );
         all_panelLayout.setVerticalGroup(
             all_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         sidemenu.add(all_panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 520, 360, 80));
@@ -341,16 +346,24 @@ public class HomeFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void customInit() {
-        for (int i = 0; i < 10; i++) {
-          WineObject obj = new WineObject(i, "Имя " + i, "Цвет " + i, "Виноград " + i, "Украина " + i, 122 + i);  
-          list.add(obj);
-        }
-        
-        TableModel tModel = new TableModel(list.size(), 6, list);
-        catTable.setModel(tModel);
+    private void customInit() {    
         jScrollPane1.setVisible(false);
         catTable.setVisible(false);
+    }
+    
+    public void getList(String category) {
+        boolean dbFl = false;
+        dbFl = db.dbConnect();
+        if (dbFl) {
+            try {
+                wineList = db.dbSelect(category);
+                System.out.println(wineList.size());
+            } catch (SQLException ex) {
+                Logger.getLogger(HomeFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        TableModel tModel = new TableModel(wineList.size(), 6, wineList);
+        catTable.setModel(tModel);
     }
     
     private void exitMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitMousePressed
@@ -366,18 +379,21 @@ public class HomeFrame extends javax.swing.JFrame {
     private void red_panelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_red_panelMouseClicked
         // TODO add your handling code here:
         skipSelection(1, "Красное вино");
-        red_panel.setBackground(clicked); 
+        getList("Красное");
+        red_panel.setBackground(clicked);     
     }//GEN-LAST:event_red_panelMouseClicked
 
     private void white_panelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_white_panelMouseClicked
         // TODO add your handling code here:
         skipSelection(2, "Белое вино");
+        getList("Белое");
         white_panel.setBackground(clicked);
     }//GEN-LAST:event_white_panelMouseClicked
 
     private void rose_panelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rose_panelMouseClicked
         // TODO add your handling code here:
         skipSelection(3, "Розовое вино");
+        getList("Розовое");
         rose_panel.setBackground(clicked);      
     }//GEN-LAST:event_rose_panelMouseClicked
 
