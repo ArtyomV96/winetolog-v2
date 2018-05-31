@@ -8,11 +8,16 @@ package winecatalog.frames;
 import helpers.DatabaseConnect;
 import helpers.TableModel;
 import java.awt.Color;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFrame;
+import winecatalog.WineCatalog;
+import winecatalog.object.FilterObject;
 import winecatalog.object.WineObject;
 
 /**
@@ -24,6 +29,7 @@ public class HomeFrame extends javax.swing.JFrame {
     public Color clicked = new Color(201, 51, 58, 255);
     public Color stock = new Color(176, 0, 29, 255);
     public int menuItem = 0; 
+    WineObject obj = new WineObject();
     public List<WineObject> wineList = new ArrayList<>();
     public DatabaseConnect db = new DatabaseConnect();
      /** Creates new form HomeFrame */
@@ -31,6 +37,7 @@ public class HomeFrame extends javax.swing.JFrame {
         initComponents();
         customInit();
         }
+    
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -41,7 +48,6 @@ public class HomeFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jRadioButtonMenuItem1 = new javax.swing.JRadioButtonMenuItem();
         basic = new javax.swing.JPanel();
         sidemenu = new javax.swing.JPanel();
         head = new javax.swing.JLabel();
@@ -58,21 +64,26 @@ public class HomeFrame extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        shamp_panel = new javax.swing.JPanel();
+        filter_panel = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
+        shamp_panel = new javax.swing.JPanel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
         tablepanel = new javax.swing.JPanel();
         headpanel = new javax.swing.JPanel();
         exit = new javax.swing.JLabel();
         head_title = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
+        cbType = new javax.swing.JComboBox<>();
+        cbSugar = new javax.swing.JComboBox<>();
+        cbGrape = new javax.swing.JComboBox<>();
+        cpCountry = new javax.swing.JComboBox<>();
+        searchIcon = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         catTable = new javax.swing.JTable();
 
-        jRadioButtonMenuItem1.setSelected(true);
-        jRadioButtonMenuItem1.setText("jRadioButtonMenuItem1");
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setLocationByPlatform(true);
         setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -226,6 +237,39 @@ public class HomeFrame extends javax.swing.JFrame {
         jLabel9.setText("Designed&Developed by ArtyomV");
         sidemenu.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 680, -1, 20));
 
+        filter_panel.setBackground(new java.awt.Color(176, 0, 29));
+        filter_panel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                filter_panelMouseClicked(evt);
+            }
+        });
+
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Search_24px_1.png"))); // NOI18N
+
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel12.setText("Фильтр");
+
+        javax.swing.GroupLayout filter_panelLayout = new javax.swing.GroupLayout(filter_panel);
+        filter_panel.setLayout(filter_panelLayout);
+        filter_panelLayout.setHorizontalGroup(
+            filter_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(filter_panelLayout.createSequentialGroup()
+                .addGap(1, 1, 1)
+                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(99, Short.MAX_VALUE))
+        );
+        filter_panelLayout.setVerticalGroup(
+            filter_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+            .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        sidemenu.add(filter_panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 600, 360, 80));
+
         shamp_panel.setBackground(new java.awt.Color(176, 0, 29));
         shamp_panel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -233,12 +277,12 @@ public class HomeFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Champagne_24px.png"))); // NOI18N
+        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Champagne_24px.png"))); // NOI18N
 
-        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel12.setText("Игристое вино");
+        jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel16.setText("Игристое вино");
 
         javax.swing.GroupLayout shamp_panelLayout = new javax.swing.GroupLayout(shamp_panel);
         shamp_panel.setLayout(shamp_panelLayout);
@@ -246,15 +290,15 @@ public class HomeFrame extends javax.swing.JFrame {
             shamp_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(shamp_panelLayout.createSequentialGroup()
                 .addGap(1, 1, 1)
-                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(99, Short.MAX_VALUE))
         );
         shamp_panelLayout.setVerticalGroup(
             shamp_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
-            .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+            .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         sidemenu.add(shamp_panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 440, 360, 80));
@@ -280,33 +324,72 @@ public class HomeFrame extends javax.swing.JFrame {
         head_title.setForeground(new java.awt.Color(255, 255, 255));
         head_title.setText("Каталог");
 
-        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Search_24px_1.png"))); // NOI18N
+        cbType.setAutoscrolls(true);
+        cbType.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbTypeActionPerformed(evt);
+            }
+        });
+
+        cbGrape.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbGrapeActionPerformed(evt);
+            }
+        });
+
+        cpCountry.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cpCountryActionPerformed(evt);
+            }
+        });
+
+        searchIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Search_24px_1.png"))); // NOI18N
+        searchIcon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                searchIconMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout headpanelLayout = new javax.swing.GroupLayout(headpanel);
         headpanel.setLayout(headpanelLayout);
         headpanelLayout.setHorizontalGroup(
             headpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(headpanelLayout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addComponent(head_title, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 195, Short.MAX_VALUE)
-                .addComponent(jLabel10)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addContainerGap(714, Short.MAX_VALUE)
                 .addComponent(exit)
                 .addContainerGap())
+            .addGroup(headpanelLayout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addGroup(headpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(head_title, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(headpanelLayout.createSequentialGroup()
+                        .addComponent(cbType, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(cbSugar, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(cbGrape, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(cpCountry, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(searchIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
         headpanelLayout.setVerticalGroup(
             headpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(headpanelLayout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(exit)
+                .addGap(6, 6, 6)
+                .addComponent(head_title, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(9, 9, 9)
                 .addGroup(headpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(headpanelLayout.createSequentialGroup()
-                        .addGroup(headpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(exit)
-                            .addComponent(jLabel10))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(head_title, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addGroup(headpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(cbType, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbSugar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbGrape, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cpCountry, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(searchIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         tablepanel.add(headpanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -349,8 +432,14 @@ public class HomeFrame extends javax.swing.JFrame {
     private void customInit() {    
         jScrollPane1.setVisible(false);
         catTable.setVisible(false);
+        cbType.setVisible(false);
+        cbSugar.setVisible(false);
+        cbGrape.setVisible(false);
+        cpCountry.setVisible(false);
+        searchIcon.setVisible(false);
     }
-    
+
+       
     public void getList(String category) {
         boolean dbFl = false;
         dbFl = db.dbConnect();
@@ -400,20 +489,94 @@ public class HomeFrame extends javax.swing.JFrame {
     private void all_panelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_all_panelMouseClicked
         // TODO add your handling code here:
         skipSelection(5, "Все");
+        getList("Все");
         all_panel.setBackground(clicked);   
     }//GEN-LAST:event_all_panelMouseClicked
 
     private void catTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_catTableMouseClicked
         // TODO add your handling code here:
         System.out.println(catTable.getSelectedRow());
-              
+        TableModel tModel = (TableModel) catTable.getModel();
+        SingleItemFrame fr;
+        try {
+            fr = new SingleItemFrame(tModel.getObj(catTable.getSelectedRow()));
+            fr.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+            fr.setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(HomeFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }            
     }//GEN-LAST:event_catTableMouseClicked
+
+    private void filter_panelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_filter_panelMouseClicked
+        // TODO add your handling code here:
+        skipSelection(6, "Фильтр");
+        cbType.setVisible(true);
+        cbSugar.setVisible(true);
+        cbGrape.setVisible(true);
+        cpCountry.setVisible(true);
+        searchIcon.setVisible(true);
+        FilterObject filterObj = new FilterObject();
+        try {
+            filterObj = db.getFilter();
+        } catch (SQLException ex) {
+            Logger.getLogger(HomeFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        filter_panel.setBackground(clicked);
+        
+        for(int i = 0; i < filterObj.getTypeList().size(); i++) {
+            cbType.addItem(filterObj.getTypeList().get(i));
+        }
+        
+        for(int i = 0; i < filterObj.getSugarFilter().size(); i++) {
+            cbSugar.addItem(filterObj.getSugarFilter().get(i));
+        }
+        
+        for(int i = 0; i < filterObj.getGrapeList().size(); i++) {
+            cbGrape.addItem(filterObj.getGrapeList().get(i));
+        }
+         
+        for(int i = 0; i < filterObj.getCountryList().size(); i++) {
+            cpCountry.addItem(filterObj.getCountryList().get(i));
+        }        
+    }//GEN-LAST:event_filter_panelMouseClicked
 
     private void shamp_panelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_shamp_panelMouseClicked
         // TODO add your handling code here:
         skipSelection(4, "Игристое вино");
-        shamp_panel.setBackground(clicked); 
+        getList("Игристое");
+        shamp_panel.setBackground(clicked);
     }//GEN-LAST:event_shamp_panelMouseClicked
+
+    private void cbGrapeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbGrapeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbGrapeActionPerformed
+
+    private void cpCountryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cpCountryActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cpCountryActionPerformed
+
+    private void cbTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTypeActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_cbTypeActionPerformed
+
+    private void searchIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchIconMouseClicked
+        // TODO add your handling code here:
+        String type = (String) cbType.getSelectedItem();
+        String sugar = (String) cbSugar.getSelectedItem();
+        String grape = (String) cbGrape.getSelectedItem();
+        String country = (String) cpCountry.getSelectedItem();
+        wineList.clear();
+        if (db.dbConnect()) {
+            try {
+                wineList = db.getFilterResult(type, sugar, grape, country);
+            } catch (SQLException ex) {
+                Logger.getLogger(HomeFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        TableModel tModel = new TableModel(wineList.size(), 6, wineList);
+        catTable.setModel(tModel);
+    }//GEN-LAST:event_searchIconMouseClicked
 
     private void skipSelection(int itemNum, String name) {
         red_panel.setBackground(stock);
@@ -421,6 +584,12 @@ public class HomeFrame extends javax.swing.JFrame {
         rose_panel.setBackground(stock);
         all_panel.setBackground(stock);
         shamp_panel.setBackground(stock);
+        filter_panel.setBackground(stock);
+        cbType.setVisible(false);
+        cbSugar.setVisible(false);
+        cbGrape.setVisible(false);
+        cpCountry.setVisible(false);
+        searchIcon.setVisible(false);
         menuItem = itemNum;
         head_title.setText(name);
         if (itemNum == 0) {
@@ -470,14 +639,20 @@ public class HomeFrame extends javax.swing.JFrame {
     private javax.swing.JPanel all_panel;
     private javax.swing.JPanel basic;
     private static javax.swing.JTable catTable;
+    private javax.swing.JComboBox<String> cbGrape;
+    private javax.swing.JComboBox<String> cbSugar;
+    private javax.swing.JComboBox<String> cbType;
+    private javax.swing.JComboBox<String> cpCountry;
     private javax.swing.JLabel exit;
+    private javax.swing.JPanel filter_panel;
     private javax.swing.JLabel head;
     private javax.swing.JLabel head_title;
     private javax.swing.JPanel headpanel;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -486,10 +661,10 @@ public class HomeFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
     private static javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel red_panel;
     private javax.swing.JPanel rose_panel;
+    private javax.swing.JLabel searchIcon;
     private javax.swing.JPanel shamp_panel;
     private javax.swing.JPanel sidemenu;
     private javax.swing.JPanel tablepanel;

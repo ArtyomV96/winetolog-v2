@@ -9,7 +9,7 @@ package winecatalog.object;
  *
  * @author wans8
  */
-public class GrapeObject {
+public class FilterItemObject {
     int id;
     String grape;
 

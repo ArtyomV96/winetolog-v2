@@ -66,7 +66,7 @@ public class TableModel extends AbstractTableModel{
             case 2:
                 return wine.get(rowIndex).getColor();
             case 3:
-                return wine.get(rowIndex).getGrape();
+                return wine.get(rowIndex).getSugar();
             case 4:
                 return wine.get(rowIndex).getCountry();
             case 5:
@@ -75,6 +75,10 @@ public class TableModel extends AbstractTableModel{
                 return "Other Column";
          }
     }
+    
+    public WineObject getObj(int rowIndex) {
+        
+                return wine.get(rowIndex);
+    }
 
-   
 }

@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import winecatalog.frames.HomeFrame;
+import winecatalog.object.FilterItemObject;
+import winecatalog.object.FilterObject;
 import winecatalog.object.WineObject;
 
 /**
@@ -76,4 +78,116 @@ public class DatabaseConnect {
       }
         return resultList;
     }
+    
+    public List<String> getFilterItem(String pole) throws SQLException {
+        List<String> resultList = new ArrayList<>();
+        resultList.add("Все");
+        if (dbConnect()) {
+            Statement stmt = null;
+            stmt = c.createStatement();
+            ResultSet rs;
+            try {
+                rs = stmt.executeQuery( "SELECT * FROM " + pole + ";" );
+             while (rs.next()) {
+                resultList.add(rs.getString(pole));
+              }
+             rs.close();
+             stmt.close();
+             c.close();
+      } catch ( Exception e ) {
+         System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+         System.exit(0);
+            }
+        }
+        return resultList;
+    }
+    
+    
+    public FilterObject getFilter() throws SQLException {
+        FilterObject object = new FilterObject();
+        List<String> sugarFilter = getFilterItem("sugar");
+        List<String> typeList = getFilterItem("color");
+        List<String> grapeList = getFilterItem("grape");
+        List<String> countryList = getFilterItem("country");
+        
+        object.setCountryList(countryList);
+        object.setTypeList(typeList);
+        object.setSugarFilter(sugarFilter);
+        object.setGrapeList(grapeList);
+        return object;
+    }
+    
+
+    public List<WineObject> getFilterResult(String color, String sugar, String grape, String country) throws SQLException {
+        List<WineObject> res = new ArrayList<>();
+        
+        boolean flagHave = false;
+  
+        String requestString = "";
+        
+        if (!color.isEmpty() && !color.equals("Все")) {
+           flagHave = true;
+           requestString = requestString + "color = '" + color + "'"; 
+        }
+        
+        if (!sugar.isEmpty() && !sugar.equals("Все")) {
+            if (flagHave) {
+                requestString = requestString + " AND ";
+            }
+           requestString = requestString + "sugar = '" + sugar + "'"; 
+           flagHave = true;
+        }
+        
+        if (!grape.isEmpty() && !grape.equals("Все")) {
+            if (flagHave) {
+                requestString = requestString + " AND ";
+            }
+            requestString = requestString + "grape = '" + grape + "'"; 
+            flagHave = true;
+        }
+        
+        if (!country.isEmpty() && !country.equals("Все")) {
+            if (flagHave) {
+                requestString = requestString + " AND ";
+            }
+            requestString = requestString + "country = '" + country + "'";
+            flagHave = true;
+        }
+        
+        
+        Statement stmt = null;
+        stmt = c.createStatement();
+        ResultSet rs;
+        try {
+            if (flagHave) {
+                rs = stmt.executeQuery( "SELECT * FROM basic " + "WHERE " + requestString + ";" );
+            } else {
+                rs = stmt.executeQuery( "SELECT * FROM basic;");
+            }
+         while (rs.next()) {
+            WineObject obj = new WineObject(); 
+            obj.setId(rs.getInt("id"));
+            obj.setName(rs.getString("name"));
+            obj.setCompany(rs.getString("company"));
+            obj.setCountry(rs.getString("country"));
+            obj.setColor(rs.getString("color"));
+            obj.setGrape(rs.getString("grape"));
+            obj.setSugar(rs.getString("sugar"));
+            obj.setDescription(rs.getString("description"));
+            obj.setPic(rs.getString("picture"));
+            obj.setYear(rs.getInt("year"));
+            obj.setAlcohol(rs.getDouble("alcohol"));
+            obj.setPrice(rs.getDouble("price"));
+            res.add(obj);
+          }
+         rs.close();
+         stmt.close();
+         c.close();
+      } catch ( Exception e ) {
+         System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+         System.exit(0);
+      }
+        
+        return res;
+    } 
 }

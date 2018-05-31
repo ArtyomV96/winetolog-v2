@@ -11,9 +11,21 @@ package winecatalog;
  */
 
 import winecatalog.frames.HomeFrame;
+import winecatalog.object.WineObject;
 
 public class WineCatalog {
 
+    WineObject obj = new WineObject();
+
+    public WineObject getObj() {
+        return obj;
+    }
+
+    public void setObj(WineObject obj) {
+        this.obj = obj;
+    }
+    
+    
     /**
      * @param args the command line arguments
      */
