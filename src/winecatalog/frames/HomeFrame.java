@@ -14,9 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
-import winecatalog.WineCatalog;
 import winecatalog.object.FilterObject;
 import winecatalog.object.WineObject;
 
@@ -38,7 +36,6 @@ public class HomeFrame extends javax.swing.JFrame {
         customInit();
         }
     
-
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -77,7 +74,7 @@ public class HomeFrame extends javax.swing.JFrame {
         cbType = new javax.swing.JComboBox<>();
         cbSugar = new javax.swing.JComboBox<>();
         cbGrape = new javax.swing.JComboBox<>();
-        cpCountry = new javax.swing.JComboBox<>();
+        cbCountry = new javax.swing.JComboBox<>();
         searchIcon = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         catTable = new javax.swing.JTable();
@@ -325,23 +322,6 @@ public class HomeFrame extends javax.swing.JFrame {
         head_title.setText("Каталог");
 
         cbType.setAutoscrolls(true);
-        cbType.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbTypeActionPerformed(evt);
-            }
-        });
-
-        cbGrape.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbGrapeActionPerformed(evt);
-            }
-        });
-
-        cpCountry.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cpCountryActionPerformed(evt);
-            }
-        });
 
         searchIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Search_24px_1.png"))); // NOI18N
         searchIcon.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -369,7 +349,7 @@ public class HomeFrame extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(cbGrape, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(cpCountry, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbCountry, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(searchIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(39, Short.MAX_VALUE))
@@ -387,7 +367,7 @@ public class HomeFrame extends javax.swing.JFrame {
                         .addComponent(cbType, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(cbSugar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(cbGrape, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(cpCountry, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(cbCountry, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(searchIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -435,11 +415,10 @@ public class HomeFrame extends javax.swing.JFrame {
         cbType.setVisible(false);
         cbSugar.setVisible(false);
         cbGrape.setVisible(false);
-        cpCountry.setVisible(false);
+        cbCountry.setVisible(false);
         searchIcon.setVisible(false);
     }
 
-       
     public void getList(String category) {
         boolean dbFl = false;
         dbFl = db.dbConnect();
@@ -513,7 +492,7 @@ public class HomeFrame extends javax.swing.JFrame {
         cbType.setVisible(true);
         cbSugar.setVisible(true);
         cbGrape.setVisible(true);
-        cpCountry.setVisible(true);
+        cbCountry.setVisible(true);
         searchIcon.setVisible(true);
         FilterObject filterObj = new FilterObject();
         try {
@@ -536,7 +515,7 @@ public class HomeFrame extends javax.swing.JFrame {
         }
          
         for(int i = 0; i < filterObj.getCountryList().size(); i++) {
-            cpCountry.addItem(filterObj.getCountryList().get(i));
+            cbCountry.addItem(filterObj.getCountryList().get(i));
         }        
     }//GEN-LAST:event_filter_panelMouseClicked
 
@@ -547,25 +526,12 @@ public class HomeFrame extends javax.swing.JFrame {
         shamp_panel.setBackground(clicked);
     }//GEN-LAST:event_shamp_panelMouseClicked
 
-    private void cbGrapeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbGrapeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbGrapeActionPerformed
-
-    private void cpCountryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cpCountryActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cpCountryActionPerformed
-
-    private void cbTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTypeActionPerformed
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_cbTypeActionPerformed
-
     private void searchIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchIconMouseClicked
         // TODO add your handling code here:
         String type = (String) cbType.getSelectedItem();
         String sugar = (String) cbSugar.getSelectedItem();
         String grape = (String) cbGrape.getSelectedItem();
-        String country = (String) cpCountry.getSelectedItem();
+        String country = (String) cbCountry.getSelectedItem();
         wineList.clear();
         if (db.dbConnect()) {
             try {
@@ -588,7 +554,7 @@ public class HomeFrame extends javax.swing.JFrame {
         cbType.setVisible(false);
         cbSugar.setVisible(false);
         cbGrape.setVisible(false);
-        cpCountry.setVisible(false);
+        cbCountry.setVisible(false);
         searchIcon.setVisible(false);
         menuItem = itemNum;
         head_title.setText(name);
@@ -639,10 +605,10 @@ public class HomeFrame extends javax.swing.JFrame {
     private javax.swing.JPanel all_panel;
     private javax.swing.JPanel basic;
     private static javax.swing.JTable catTable;
+    private javax.swing.JComboBox<String> cbCountry;
     private javax.swing.JComboBox<String> cbGrape;
     private javax.swing.JComboBox<String> cbSugar;
     private javax.swing.JComboBox<String> cbType;
-    private javax.swing.JComboBox<String> cpCountry;
     private javax.swing.JLabel exit;
     private javax.swing.JPanel filter_panel;
     private javax.swing.JLabel head;
