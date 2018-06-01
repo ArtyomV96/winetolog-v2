@@ -495,6 +495,9 @@ public class HomeFrame extends javax.swing.JFrame {
         cbCountry.setVisible(true);
         searchIcon.setVisible(true);
         FilterObject filterObj = new FilterObject();
+        wineList.clear();
+        TableModel tModel = new TableModel(wineList.size(), 6, wineList);
+        catTable.setModel(tModel);
         try {
             filterObj = db.getFilter();
         } catch (SQLException ex) {
